@@ -27,6 +27,11 @@
                             </ul>
                             <p v-else>{{ data }}</p>
                         </td>
+                        <td>
+                            <a :href="'UserDetail.html?userId=' + user.id">
+                                Details
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
