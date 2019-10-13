@@ -8,18 +8,49 @@
 </head>
 <body>
     <div id="app">
-        <p>{{userId}}</p>
+        <div class="container">
+            <h1> User details <span class="badge badge-secondary">id: {{ userId }}</span></h1>
+
+            <div v-for="user, name in userData">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">{{ name }}</span>
+                    </div>
+                    <input type="text" class="form-control" :placeholder="user" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+            </div>
+
+        </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        const userDetail = new Vue({
-          el: '#app',
-          computed: {
-            userId: function() {
-              return window.location.search.split('=')[1];
-            }
+      const userDetail = new Vue({
+        el: '#app',
+        data: function () {
+          return {
+            userData: ''
           }
-        })
+        },
+        computed: {
+          userId: function () {
+            return window.location.search.split('=')[1];
+          }
+        },
+        methods: {
+          getUser: function () {
+            let self = this;
+            axios.get(`http://localhost:3000/data?id=${this.userId}`)
+              .then(function(response) {
+                self.userData = response.data[0];
+              });
+          }
+        },
+        mounted() {
+          this.getUser();
+        }
+      });
     </script>
 </body>
 </html>
