@@ -2,9 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>UserDertail</title>
 </head>
 <body>
+    <div id="app">
+        <users-list :list="list"></users-list>
+    </div>
 
+    <template id="userList">
+        <div class="container">
+            <table class="table table-striped table-bordered table-hover table-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th v-for="item, heading in list[0]">{{ heading }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="user in list">
+                        <td v-for="data in user">
+                            <ul v-if="isObj(data)">
+                                <li v-for="item, name in data">{{ name }} : {{ item }}</li>
+                            </ul>
+                            <p v-else>{{ data }}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        var usersList = {
+            template: '#userList',
+            props: {
+              list: {
+                type: Array,
+                default: []
+              }
+            },
+            methods: {
+              isObj: function(data) {
+                if(typeof data === 'object') return true;
+              }
+            }
+        };
+
+        var userListPage = new Vue({
+          el: '#app',
+          data: function() {
+            return {
+                list: []
+            }
+          },
+          components: {
+            'users-list': usersList
+          },
+          methods: {
+            getUsers: function() {
+                const self = this;
+                axios.get('http://jsonplaceholder.typicode.com/users')
+                  .then(function(response) {
+                    console.log(`request status - ${response.status}`);
+                    self.list =  response.data;
+                  });
+            }
+          },
+          mounted: function() {
+            this.getUsers();
+          }
+        });
+    </script>
 </body>
 </html>
