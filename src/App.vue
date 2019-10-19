@@ -21,12 +21,10 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <router-link active-class="active" class="nav-link" to="/" exact>Home</router-link>
+              <router-link class="nav-link" to="/" exact>Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link active-class="active" class="nav-link" to="/addUser" exact
-                >Add User</router-link
-              >
+              <router-link class="nav-link" to="/addUser" exact>Add User</router-link>
             </li>
           </ul>
         </div>
@@ -36,8 +34,6 @@
     <router-view />
   </div>
 </template>
-
-<script></script>
 
 <style lang="scss">
 #app {

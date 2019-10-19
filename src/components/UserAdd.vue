@@ -1,8 +1,5 @@
 <template>
-  <div class="container">
-    <nprogress-container></nprogress-container>
-    <h1>User details <span class="badge badge-secondary">Add user</span></h1>
-
+  <div>
     <div v-for="fieldName in fieldNames" :key="fieldName">
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -21,7 +18,7 @@
   </div>
 </template>
 <script>
-import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
+// import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 
 export default {
   data() {
@@ -30,7 +27,7 @@ export default {
     }
   },
   components: {
-    NprogressContainer
+    // NprogressContainer
   }
 }
 </script>
