@@ -16,7 +16,7 @@
       <router-link
         tag="tr"
         :to="{ name: 'Edit', params: { userId: user.id } }"
-        v-for="user in list"
+        v-for="user in interval"
         :key="user.id"
         class="user-row"
       >
@@ -38,6 +38,11 @@ import axios from 'axios'
 // import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 
 export default {
+  props: {
+    usersInterval: {
+      type: Array
+    }
+  },
   data: function() {
     return {
       list: []
@@ -47,14 +52,22 @@ export default {
   methods: {
     getUsers: function() {
       axios
-        .get('http://localhost:3000/users', { headers: { Autorisation: 'authToBeAdded' } })
+        .get('http://localhost:3000/users', { headers: { Authorization: 'authToBeAdded' } })
         .then(response => {
           console.log(`request status - ${response.status}`)
+          this.$emit('usersLoaded', response.data.length)
           this.list = response.data
         })
         .catch(function(error) {
           console.log(error)
         })
+    }
+  },
+  computed: {
+    interval() {
+      let start = this.usersInterval[0]
+      let end = this.usersInterval[1]
+      return this.list.slice(start, end)
     }
   },
   mounted: function() {

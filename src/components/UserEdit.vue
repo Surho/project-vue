@@ -30,8 +30,8 @@
       <input type="text" class="form-control" v-model="localUser.company" />
     </div>
 
-    <pre class="user-data">{{ localUser }}</pre>
-    <pre class="user-data">{{ user }}</pre>
+    <!--    <pre class="user-data">{{ localUser }}</pre>-->
+    <!--    <pre class="user-data">{{ user }}</pre>-->
   </div>
 </template>
 
@@ -49,9 +49,14 @@ export default {
       type: Object
     }
   },
+  model: {
+    prop: 'user',
+    event: 'update'
+  },
   watch: {
-    localUser() {
-      this.updateUser()
+    localUser: {
+      deep: true,
+      handler: 'updateUserEmit'
     }
   },
   created() {
@@ -61,7 +66,7 @@ export default {
     updateLocalUser() {
       this.localUser = Object.assign({}, this.user)
     },
-    updateUser() {
+    updateUserEmit() {
       this.$emit('update', Object.assign({}, this.localUser))
     }
   }
