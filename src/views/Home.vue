@@ -1,9 +1,13 @@
 <template>
   <div class="container">
-    <user-per-page-select @perPageUpdate="updatePerPage"></user-per-page-select>
+    <user-per-page-select @perPageUpdate="resetPage" v-model="usersPerPage"></user-per-page-select>
     <h1>Users list</h1>
-    <user-list @usersLoaded="saveTotalUsers" :usersInterval="usersInterval"></user-list>
-    <user-pagination :pages="totalPages" @pageChange="saveCurrentPage"></user-pagination>
+    <user-list
+      @usersLoaded="saveTotalUsers"
+      :currentPage="currentPage"
+      :usersPerPage="usersPerPage"
+    ></user-list>
+    <user-pagination :pages="totalPages" v-model="currentPage"></user-pagination>
   </div>
 </template>
 
@@ -23,8 +27,7 @@ export default {
   },
   computed: {
     totalPages() {
-      let pagesCount = Math.ceil(this.totalUsers / this.usersPerPage)
-      return pagesCount
+      return Math.ceil(this.totalUsers / this.usersPerPage)
     },
     usersInterval() {
       let start, end
@@ -37,12 +40,8 @@ export default {
     saveTotalUsers(usersCount) {
       this.totalUsers = usersCount
     },
-    updatePerPage(users) {
-      this.usersPerPage = users
+    resetPage() {
       this.currentPage = 1
-    },
-    saveCurrentPage(page) {
-      this.currentPage = page
     }
   }
 }

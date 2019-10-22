@@ -39,8 +39,13 @@ import axios from 'axios'
 
 export default {
   props: {
-    usersInterval: {
-      type: Array
+    usersPerPage: {
+      type: Number,
+      default: 5
+    },
+    currentPage: {
+      type: Number,
+      default: 1
     }
   },
   data: function() {
@@ -65,8 +70,8 @@ export default {
   },
   computed: {
     interval() {
-      let start = this.usersInterval[0]
-      let end = this.usersInterval[1]
+      let end = this.usersPerPage * this.currentPage
+      let start = end - this.usersPerPage
       return this.list.slice(start, end)
     }
   },

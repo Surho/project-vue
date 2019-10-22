@@ -10,6 +10,10 @@
 </template>
 <script>
 export default {
+  model: {
+    prop: 'usersPerPage',
+    event: 'perPageUpdate'
+  },
   data() {
     return {
       usersPerPage: 5
@@ -17,8 +21,8 @@ export default {
   },
   methods: {
     sendPerPageEvt(evt) {
-      let selected = evt.target.value
-      this.$emit('perPageUpdate', +selected)
+      this.usersPerPage = +evt.target.value
+      this.$emit('perPageUpdate', this.usersPerPage)
     }
   }
 }
