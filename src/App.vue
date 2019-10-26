@@ -3,7 +3,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
       <div class="container">
-        <router-link to="/" class="main-logo" href="#">
+        <router-link to="/" class="main-logo">
           <img src="./assets/logo.png" alt="" />
           <p><span>vue.js</span> study project</p>
         </router-link>
@@ -18,7 +18,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <div id="navbarResponsive" class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
               <router-link class="nav-link" to="/" exact>Home</router-link>

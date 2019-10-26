@@ -1,11 +1,7 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(Router)
-
-const Home = () => import('@/views/Home.vue')
-const Edit = () => import('@/views/Edit.vue')
-const Add = () => import('@/views/Add.vue')
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -14,17 +10,17 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: () => import('@/views/Home.vue')
     },
     {
       path: '/UserEdit/:userId',
       name: 'Edit',
-      component: Edit
+      component: () => import('@/views/Edit.vue')
     },
     {
       path: '/addUser',
       name: 'Add',
-      component: Add
+      component: () => import('@/views/Add.vue')
     }
   ]
-})
+});

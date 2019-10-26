@@ -14,10 +14,10 @@
     </thead>
     <tbody>
       <router-link
-        tag="tr"
-        :to="{ name: 'Edit', params: { userId: user.id } }"
         v-for="user in interval"
         :key="user.id"
+        tag="tr"
+        :to="{ name: 'Edit', params: { userId: user.id } }"
         class="user-row"
       >
         <td class="user-column">{{ user.id }}</td>
@@ -34,11 +34,15 @@
 </template>
 
 <script>
-import axios from 'axios'
-// import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
-
 export default {
+  components: {},
   props: {
+    usersList: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
     usersPerPage: {
       type: Number,
       default: 5
@@ -48,37 +52,14 @@ export default {
       default: 1
     }
   },
-  data: function() {
-    return {
-      list: []
-    }
-  },
-  components: {},
-  methods: {
-    getUsers: function() {
-      axios
-        .get('http://localhost:3000/users', { headers: { Authorization: 'authToBeAdded' } })
-        .then(response => {
-          console.log(`request status - ${response.status}`)
-          this.$emit('usersLoaded', response.data.length)
-          this.list = response.data
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
-    }
-  },
   computed: {
     interval() {
-      let end = this.usersPerPage * this.currentPage
-      let start = end - this.usersPerPage
-      return this.list.slice(start, end)
+      let end = this.usersPerPage * this.currentPage;
+      let start = end - this.usersPerPage;
+      return this.usersList.slice(start, end);
     }
-  },
-  mounted: function() {
-    this.getUsers()
   }
-}
+};
 </script>
 <style lang="scss">
 .user-row {

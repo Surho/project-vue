@@ -2,56 +2,51 @@
   <div>
     <div class="form-group user-form">
       <label>Имя</label>
-      <input type="text" class="form-control" v-model="localUser.firstName" />
+      <input v-model="localUser.firstName" type="text" class="form-control" />
     </div>
 
     <div class="form-group user-form">
       <label>Фамилия</label>
-      <input type="text" class="form-control" v-model="localUser.lastName" />
+      <input v-model="localUser.lastName" type="text" class="form-control" />
     </div>
 
     <div class="form-group user-form">
       <label>Баланс</label>
-      <input type="text" class="form-control" v-model="localUser.balance" />
+      <input v-model="localUser.balance" type="text" class="form-control" />
     </div>
 
     <div class="form-group user-form">
       <label>Телефон</label>
-      <input type="text" class="form-control" v-model="localUser.phone" />
+      <input v-model="localUser.phone" type="text" class="form-control" />
     </div>
 
     <div class="form-group user-form">
       <label>Адрес</label>
-      <input type="text" class="form-control" v-model="localUser.address" />
+      <input v-model="localUser.address" type="text" class="form-control" />
     </div>
 
     <div class="form-group user-form">
       <label>Компания</label>
-      <input type="text" class="form-control" v-model="localUser.company" />
+      <input v-model="localUser.company" type="text" class="form-control" />
     </div>
-
-    <!--    <pre class="user-data">{{ localUser }}</pre>-->
-    <!--    <pre class="user-data">{{ user }}</pre>-->
   </div>
 </template>
 
 <script>
-// import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
-
 export default {
-  data() {
-    return {
-      localUser: null
-    }
+  model: {
+    prop: 'user',
+    event: 'update'
   },
   props: {
     user: {
       type: Object
     }
   },
-  model: {
-    prop: 'user',
-    event: 'update'
+  data() {
+    return {
+      localUser: null
+    };
   },
   watch: {
     localUser: {
@@ -60,17 +55,17 @@ export default {
     }
   },
   created() {
-    this.updateLocalUser()
+    this.updateLocalUser();
   },
   methods: {
     updateLocalUser() {
-      this.localUser = Object.assign({}, this.user)
+      this.localUser = Object.assign({}, this.user);
     },
     updateUserEmit() {
-      this.$emit('update', Object.assign({}, this.localUser))
+      this.$emit('update', Object.assign({}, this.localUser));
     }
   }
-}
+};
 </script>
 
 <style>
