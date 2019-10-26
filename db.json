@@ -21,7 +21,7 @@
       "isActive": false,
       "balance": "$3,933.15",
       "picture": "http://placehold.it/128x128",
-      "age": 22,
+      "age": "22",
       "accessLevel": "user",
       "firstName": "Claudine",
       "lastName": "Cantu",
@@ -31,22 +31,6 @@
       "address": "374 Clark Street, Albrightsville, Delaware, 2449",
       "about": "Magna Lorem deserunt culpa consectetur nisi pariatur veniam in voluptate sint non eiusmod. Fugiat veniam ipsum ad id exercitation dolor. Laborum consectetur reprehenderit sit ea ea. Proident culpa amet qui eiusmod esse laboris ex eu nostrud et veniam laboris enim.",
       "registered": "27.11.2014"
-    },
-    {
-      "id": 2,
-      "isActive": true,
-      "balance": "$3,120.86",
-      "picture": "http://placehold.it/128x128",
-      "age": 25,
-      "accessLevel": "guest",
-      "firstName": "Nora",
-      "lastName": "Rogers",
-      "company": "BIOLIVE",
-      "email": "nora.rogers@biolive.net",
-      "phone": "+7 (829) 501-3717",
-      "address": "191 Neptune Court, Iberia, Virgin Islands, 151",
-      "about": "Ad velit dolore culpa dolore voluptate adipisicing. In irure incididunt esse ea laboris exercitation quis. Est aliquip cillum nulla magna amet nulla. Magna ipsum culpa labore deserunt do aliqua elit nulla consectetur. Id cillum duis fugiat et enim aliquip consequat consectetur laborum minim adipisicing et. Ullamco ea consectetur anim magna id ipsum qui labore laboris nostrud voluptate.",
-      "registered": "06.06.2014"
     },
     {
       "id": 6,
@@ -768,19 +752,19 @@
       "registered": 1571864924185
     },
     {
-      "id": 51,
-      "isActive": "",
-      "balance": "12132",
-      "picture": "",
-      "age": "",
-      "firstName": "12123",
-      "lastName": "123132123",
-      "company": "",
-      "email": "",
-      "phone": "123123123231",
-      "about": "",
-      "accessLevel": "",
-      "registered": 1571864924185
+      "id": 52,
+      "isActive": true,
+      "balance": "1",
+      "picture": "1",
+      "age": "1",
+      "firstName": "1",
+      "lastName": "1",
+      "company": "1",
+      "email": "1",
+      "phone": "1",
+      "about": "1",
+      "accessLevel": "1",
+      "registered": "1"
     }
   ]
 }

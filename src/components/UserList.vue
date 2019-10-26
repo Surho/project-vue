@@ -14,7 +14,7 @@
     </thead>
     <tbody>
       <router-link
-        v-for="user in interval"
+        v-for="user in usersList"
         :key="user.id"
         tag="tr"
         :to="{ name: 'Edit', params: { userId: user.id } }"
@@ -35,28 +35,12 @@
 
 <script>
 export default {
-  components: {},
   props: {
     usersList: {
       type: Array,
       default() {
         return [];
       }
-    },
-    usersPerPage: {
-      type: Number,
-      default: 5
-    },
-    currentPage: {
-      type: Number,
-      default: 1
-    }
-  },
-  computed: {
-    interval() {
-      let end = this.usersPerPage * this.currentPage;
-      let start = end - this.usersPerPage;
-      return this.usersList.slice(start, end);
     }
   }
 };

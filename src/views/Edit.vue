@@ -4,21 +4,18 @@
       User details <span class="badge badge-secondary">id: {{ this.userId }}</span>
     </h1>
     <p v-if="!user" class="alert alert-warning">Loading...</p>
-    <user-edit v-else v-model="user"></user-edit>
+    <user-form v-else v-model="user"></user-form>
 
-    <div class="delete-block">
+    <div v-if="user" class="delete-block">
       <button
-        @click="showModal"
         type="button"
         class="btn btn-danger user-delete"
-        :class="{ visible: !modalShown, hidden: modalShown }"
+        :class="modalShown ? 'hidden' : 'visible'"
+        @click="modalShown = true"
       >
         Delete user
       </button>
-      <div
-        class="modal-delete alert alert-danger"
-        :class="{ visible: modalShown, hidden: !modalShown }"
-      >
+      <div class="modal-delete alert alert-danger" :class="modalShown ? 'visible' : 'hidden'">
         <p>Are you sure?</p>
         <button type="button" class="btn btn-danger btn-delete" @click="deleteUser">Yes</button>
         <button type="button" class="btn btn-danger btn-delete" @click="modalShown = false">
@@ -29,55 +26,52 @@
   </div>
 </template>
 <script>
-import UserEdit from '@/components/UserEdit.vue'
-import axios from 'axios'
+import UserForm from '@/components/UserForm.vue';
+import axios from '@/axios';
 
 export default {
-  components: { UserEdit },
+  components: { UserForm },
   data() {
     return {
       user: null,
       modalShown: false
-    }
+    };
   },
   computed: {
     userId() {
-      return this.$route.params.userId
+      return this.$route.params.userId;
     }
   },
   watch: {
-    user: function() {
-      this.updateUser()
-    }
-  },
-  methods: {
-    showModal() {
-      this.modalShown = true
-    },
-    getUser: function() {
-      axios
-        .get(`http://localhost:3000/users/${this.userId}`, {
-          headers: { Autorisation: 'authToBeAdded' }
-        })
-        .then(response => {
-          this.user = response.data
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
-    },
-    updateUser: function() {
-      axios.patch(`http://localhost:3000/users/${this.userId}`, this.user)
-    },
-    deleteUser: function() {
-      axios.delete(`http://localhost:3000/users/${this.userId}`)
-      this.$router.push({ name: 'Home' })
-    }
+    user: 'updateUser'
   },
   mounted() {
-    this.getUser()
+    this.getUser();
+  },
+  methods: {
+    getUser: function() {
+      axios
+        .get(`/users/${this.userId}`)
+        .then(response => {
+          this.user = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    updateUser: function() {
+      axios.patch(`/users/${this.userId}`, this.user).catch(error => console.log(error));
+    },
+    deleteUser: function() {
+      axios
+        .delete(`/users/${this.userId}`)
+        .then(response => {
+          if (response.status === 200) this.$router.push({ name: 'Home' });
+        })
+        .catch(error => console.log(error));
+    }
   }
-}
+};
 </script>
 
 <style lang="scss">

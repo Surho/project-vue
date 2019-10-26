@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Show users per page</p>
-    <select @change="sendPerPageEvt" class="custom-select user-per-page">
+    <select class="custom-select user-per-page" @change="sendPerPageEvt">
       <option value="5">5</option>
       <option value="10">10</option>
       <option value="25">25</option>
@@ -17,15 +17,15 @@ export default {
   data() {
     return {
       usersPerPage: 5
-    }
+    };
   },
   methods: {
     sendPerPageEvt(evt) {
-      this.usersPerPage = +evt.target.value
-      this.$emit('perPageUpdate', this.usersPerPage)
+      this.usersPerPage = evt.target.value;
+      this.$emit('perPageUpdate', this.usersPerPage);
     }
   }
-}
+};
 </script>
 
 <style>
