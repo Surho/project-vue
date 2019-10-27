@@ -36,6 +36,10 @@ export default {
   data() {
     return {
       user: null,
+      idList: [],
+      currentIdIndex: null,
+      nextUserId: null,
+      previousUserId: null,
       modalShown: false
     };
   },
@@ -43,25 +47,22 @@ export default {
     userId() {
       return this.$route.params.userId;
     }
-    // idArray() {
-    //   return this.$route.params.idArray;
-    // },
-    // currentIdIndex() {
-    //   return this.idArray.indexOf(this.userId);
-    // },
-    // nextUserId() {
-    //   return this.idArray[this.currentIdIndex + 1];
-    // },
-    // previousUserId() {
-    //   return this.idArray[this.currentIdIndex - 1];
-    // }
   },
   watch: {
-    user: 'updateUser'
+    user: 'updateUser',
+    idList() {
+      this.currentIdIndex = this.idList.indexOf(+this.userId);
+      this.nextUserId = this.idList[this.currentIdIndex + 1];
+      this.previousUserId = this.idList[this.currentIdIndex - 1];
+    }
   },
   mounted() {
-    console.log(this.$route);
-    console.log(this.nextUserId, this.previousUserId);
+    this.getUsersIds();
+    this.getUser();
+  },
+  beforeRouteUpdate(to) {
+    this.userId = to.params.userId;
+    this.getUsersIds();
     this.getUser();
   },
   methods: {
@@ -70,6 +71,16 @@ export default {
         .get(`/users/${this.userId}`)
         .then(response => {
           this.user = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    getUsersIds() {
+      axios
+        .get(`/users/`)
+        .then(response => {
+          this.idList = response.data.map(item => item.id);
         })
         .catch(function(error) {
           console.log(error);

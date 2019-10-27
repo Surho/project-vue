@@ -17,7 +17,7 @@
         v-for="user in usersList"
         :key="user.id"
         tag="tr"
-        :to="{ name: 'Edit', params: { userId: user.id, idArray: idArray } }"
+        :to="{ name: 'Edit', params: { userId: user.id } }"
         class="user-row"
       >
         <td class="user-column">{{ user.id }}</td>
@@ -37,12 +37,6 @@
 export default {
   props: {
     usersList: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
-    idArray: {
       type: Array,
       default() {
         return [];
