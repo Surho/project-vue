@@ -1,9 +1,13 @@
 <template>
   <div class="container">
-    <user-per-page-select v-model="usersPerPage" @perPageUpdate="resetPage"></user-per-page-select>
+    <user-per-page-select
+      v-model="usersPerPage"
+      class="user-per-page"
+      @perPageUpdate="resetPage"
+    ></user-per-page-select>
     <h1>Users list</h1>
-    <user-list :users-list="usersOnPage"></user-list>
-    <user-pagination v-model="currentPage" :pages="totalPages"></user-pagination>
+    <user-list :users-list="usersOnPage" :id-array="idList"></user-list>
+    <user-pagination v-model="currentPage" :total-pages="totalPages"></user-pagination>
   </div>
 </template>
 
@@ -20,7 +24,8 @@ export default {
       totalUsers: 0,
       usersPerPage: 5,
       currentPage: 1,
-      usersList: []
+      usersList: [],
+      idList: []
     };
   },
   computed: {
@@ -47,6 +52,7 @@ export default {
           console.log(`request status - ${response.status}`);
           this.totalUsers = response.data.length;
           this.usersList = response.data;
+          this.idList = response.data.map(item => item.id);
         })
         .catch(function(error) {
           console.log(error);
@@ -55,3 +61,8 @@ export default {
   }
 };
 </script>
+<style>
+.user-per-page {
+  text-align: left;
+}
+</style>

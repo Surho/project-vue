@@ -1,19 +1,30 @@
 <template>
   <nav>
     <ul class="pagination">
-      <li class="page-item" @click="switchPrevious">
-        <a class="page-link page-link-previous">Previous</a>
+      <li class="page-item">
+        <a
+          class="page-link page-link-previous"
+          :class="{ disabled: pageSelected === 1 }"
+          @click="switchPrevious"
+          >Previous</a
+        >
       </li>
       <li
-        v-for="page in pages"
+        v-for="page in totalPages"
         :key="page"
         class="page-item"
         :class="{ active: pageSelected === page }"
-        @click="pageChange(page)"
       >
-        <a class="page-link">{{ page }}</a>
+        <a class="page-link" @click="pageChange(page)">{{ page }}</a>
       </li>
-      <li class="page-item" @click="switchNext"><a class="page-link page-link-next">Next</a></li>
+      <li class="page-item">
+        <a
+          class="page-link page-link-next"
+          :class="{ disabled: pageSelected === totalPages }"
+          @click="switchNext"
+          >Next</a
+        >
+      </li>
     </ul>
   </nav>
 </template>
@@ -24,14 +35,14 @@ export default {
     event: 'pageChange'
   },
   props: {
-    pages: {
-      type: Number
+    totalPages: {
+      type: Number,
+      default: 1
     }
   },
   data() {
     return {
-      pageSelected: 1,
-      activePage: 1
+      pageSelected: 1
     };
   },
   methods: {
@@ -40,21 +51,26 @@ export default {
       this.$emit('pageChange', this.pageSelected);
     },
     switchNext() {
-      if (this.pageSelected === this.pagesArr.length) return;
-      this.pageSelected += 1;
-      this.$emit('pageChange', this.pageSelected);
+      if (this.pageSelected === this.totalPages) return;
+      this.pageChange(this.pageSelected + 1);
     },
     switchPrevious() {
       if (this.pageSelected === 1) return;
-      this.pageSelected -= 1;
-      this.$emit('pageChange', this.pageSelected);
+      this.pageChange(this.pageSelected - 1);
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
 .page-item {
   cursor: pointer;
+}
+.disabled {
+  cursor: not-allowed;
+
+  &:hover {
+    background-color: transparent;
+  }
 }
 </style>

@@ -7,6 +7,8 @@
     <user-form v-else v-model="user"></user-form>
 
     <div v-if="user" class="delete-block">
+      <button @click="goToNext">next user</button>
+      <button @click="goToPrevious">previous user</button>
       <button
         type="button"
         class="btn btn-danger user-delete"
@@ -41,11 +43,25 @@ export default {
     userId() {
       return this.$route.params.userId;
     }
+    // idArray() {
+    //   return this.$route.params.idArray;
+    // },
+    // currentIdIndex() {
+    //   return this.idArray.indexOf(this.userId);
+    // },
+    // nextUserId() {
+    //   return this.idArray[this.currentIdIndex + 1];
+    // },
+    // previousUserId() {
+    //   return this.idArray[this.currentIdIndex - 1];
+    // }
   },
   watch: {
     user: 'updateUser'
   },
   mounted() {
+    console.log(this.$route);
+    console.log(this.nextUserId, this.previousUserId);
     this.getUser();
   },
   methods: {
@@ -69,6 +85,12 @@ export default {
           if (response.status === 200) this.$router.push({ name: 'Home' });
         })
         .catch(error => console.log(error));
+    },
+    goToNext: function() {
+      this.$router.push({ path: `/UserEdit/${this.nextUserId}` });
+    },
+    goToPrevious: function() {
+      this.$router.push({ path: `/UserEdit/${this.previousUserId}` });
     }
   }
 };
