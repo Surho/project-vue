@@ -20,18 +20,13 @@
         </button>
         <div id="navbarResponsive" class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <router-link class="nav-link" to="/" exact>Home</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/addUser" exact>Add User</router-link>
-            </li>
+            <router-link tag="li" class="nav-link nav-item" to="/" exact>Home</router-link>
+            <router-link tag="li" class="nav-link nav-item" to="/addUser">Add User</router-link>
           </ul>
         </div>
       </div>
     </nav>
-
-    <router-view />
+    <router-view></router-view>
   </div>
 </template>
 

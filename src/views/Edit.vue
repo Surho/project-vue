@@ -6,6 +6,8 @@
     <p v-if="!user" class="alert alert-warning">Loading...</p>
     <user-form v-else v-model="user"></user-form>
 
+    <button @click="saveUser">Save user</button>
+
     <div v-if="user" class="delete-block">
       <button @click="goToNext">next user</button>
       <button @click="goToPrevious">previous user</button>
@@ -35,40 +37,62 @@ export default {
   components: { UserForm },
   data() {
     return {
+      users: null,
       user: null,
-      idList: [],
+      userIndex: null,
       currentIdIndex: null,
-      nextUserId: null,
-      previousUserId: null,
       modalShown: false
     };
   },
   computed: {
     userId() {
       return this.$route.params.userId;
+    },
+    nextUserId() {
+      if (this.users[this.userIndex + 1]) {
+        return this.users[this.userIndex + 1].id;
+      } else {
+        return null;
+      }
+    },
+    previousUserId() {
+      if (this.users[this.userIndex - 1]) {
+        return this.users[this.userIndex - 1].id;
+      } else {
+        return null;
+      }
     }
   },
   watch: {
-    user: 'updateUser',
-    idList() {
-      this.currentIdIndex = this.idList.indexOf(+this.userId);
-      this.nextUserId = this.idList[this.currentIdIndex + 1];
-      this.previousUserId = this.idList[this.currentIdIndex - 1];
+    $route() {
+      this.getUser(this.userId);
+    },
+    users() {
+      for (let i = 0; i < this.users.length; i++) {
+        if (this.users[i].id === this.user.id) {
+          this.userIndex = i;
+          break;
+        } else {
+          this.userIndex = null;
+        }
+      }
     }
   },
-  mounted() {
-    this.getUsersIds();
-    this.getUser();
-  },
-  beforeRouteUpdate(to) {
-    this.userId = to.params.userId;
-    this.getUsersIds();
-    this.getUser();
+  created() {
+    this.getUser(this.userId);
   },
   methods: {
-    getUser: function() {
+    getUsers() {
+      return new Promise(resolve => {
+        axios.get('/users/').then(response => {
+          this.users = response.data;
+          resolve(this.users);
+        });
+      });
+    },
+    getUser: function(id) {
       axios
-        .get(`/users/${this.userId}`)
+        .get(`/users/${id}`)
         .then(response => {
           this.user = response.data;
         })
@@ -76,32 +100,30 @@ export default {
           console.log(error);
         });
     },
-    getUsersIds() {
-      axios
-        .get(`/users/`)
-        .then(response => {
-          this.idList = response.data.map(item => item.id);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
-    updateUser: function() {
+    saveUser: function() {
       axios.patch(`/users/${this.userId}`, this.user).catch(error => console.log(error));
+      this.redirectHome();
     },
     deleteUser: function() {
       axios
         .delete(`/users/${this.userId}`)
         .then(response => {
-          if (response.status === 200) this.$router.push({ name: 'Home' });
+          if (response.status === 200) this.redirectHome();
         })
         .catch(error => console.log(error));
     },
     goToNext: function() {
-      this.$router.push({ path: `/UserEdit/${this.nextUserId}` });
+      this.getUsers().then(() => {
+        if (this.nextUserId) this.$router.push({ path: `/UserEdit/${this.nextUserId}` });
+      });
     },
     goToPrevious: function() {
-      this.$router.push({ path: `/UserEdit/${this.previousUserId}` });
+      this.getUsers().then(() => {
+        if (this.previousUserId) this.$router.push({ path: `/UserEdit/${this.previousUserId}` });
+      });
+    },
+    redirectHome() {
+      this.$router.push({ name: 'Home' });
     }
   }
 };

@@ -32,7 +32,17 @@ export default {
   },
   methods: {
     addUser() {
-      axios.post(`/users/`, this.user);
+      axios
+        .post(`/users/`, this.user)
+        .then(() => {
+          this.redirectHome();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    redirectHome() {
+      this.$router.push({ name: 'Home' });
     }
   }
 };

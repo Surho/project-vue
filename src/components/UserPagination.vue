@@ -6,8 +6,9 @@
           class="page-link page-link-previous"
           :class="{ disabled: pageSelected === 1 }"
           @click="switchPrevious"
-          >Previous</a
         >
+          Previous
+        </a>
       </li>
       <li
         v-for="page in totalPages"

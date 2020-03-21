@@ -2,14 +2,7 @@
   <table class="table table-bordered table-sm">
     <thead class="table-dark">
       <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Lastname</th>
-        <th>Active</th>
-        <th>Balance</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Registered</th>
+        <slot name="table-head"></slot>
       </tr>
     </thead>
     <tbody>
@@ -20,14 +13,7 @@
         :to="{ name: 'Edit', params: { userId: user.id } }"
         class="user-row"
       >
-        <td class="user-column">{{ user.id }}</td>
-        <td class="user-column">{{ user.firstName }}</td>
-        <td class="user-column">{{ user.lastName }}</td>
-        <td class="user-column">{{ user.isActive }}</td>
-        <td class="user-column">{{ user.balance }}</td>
-        <td class="user-column">{{ user.email }}</td>
-        <td class="user-column">{{ user.phone }}</td>
-        <td class="user-column">{{ user.registered }}</td>
+        <slot name="table-row" :user="user"></slot>
       </router-link>
     </tbody>
   </table>
@@ -45,6 +31,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
 .user-row {
   cursor: pointer;
